@@ -8,9 +8,11 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
 
+from django.contrib.auth import get_user_model
 
-from .serializers import UserSerializer
-from .serializers import RegisterSerializer
+from .serializers import UserSerializer, RegisterSerializer, DeleteAccountSerializer
+
+User = get_user_model()
 
 
 class RegisterView(APIView):
@@ -47,12 +49,54 @@ class LoginView(TokenObtainPairView):
         }, status=status.HTTP_200_OK)
 
 
+def revoke_user_tokens(user):
+    tokens = OutstandingToken.objects.filter(user=user)
+
+    for token in tokens:
+        try:
+            # Convertir l'OutstandingToken en RefreshToken
+            token_instance = RefreshToken(token.token)
+            token_instance.blacklist()
+        except Exception as e:
+            # Token déjà blacklisté ou invalide, on ignore
+            continue
+
 class MeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         serializer = UserSerializer(request.user)
         return Response(serializer.data)
+
+    def put(self, request):
+        serializer = UserSerializer(
+            request.user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Profil mis à jour avec succès', 'user': serializer.data})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request):
+        serializer = DeleteAccountSerializer(
+            data=request.data, context={'request': request})
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        user = request.user
+
+        if user.books_added.exists():
+            user.books_added.all().delete()
+            message = 'Compte et livres associés supprimés avec succès'
+        else:
+            message = 'Compte supprimé avec succès (aucun livre associé)'
+
+        # Révocation des tokens (sécurité)
+        revoke_user_tokens(user)
+
+        # Suppression du compte
+        user.delete()
+
+        return Response({'message': message}, status=status.HTTP_204_NO_CONTENT)
 
 
 class LogoutView(APIView):

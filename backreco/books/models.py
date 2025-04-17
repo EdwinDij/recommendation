@@ -22,7 +22,7 @@ class Book(models.Model):
     # Relations
     added_by = models.ForeignKey(
         CustomUser,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name='books_added'
@@ -30,7 +30,7 @@ class Book(models.Model):
 
     saga = models.ForeignKey(
         Saga,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         null=True,
         blank=True,
         related_name='books'
