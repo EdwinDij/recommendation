@@ -15,8 +15,9 @@ class BookCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        serializer = BookSerializer(data=request.data)
+        serializer = BookSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            serializer.save(added_by=request.user) 
+            serializer.save()
             return Response({'message': 'livre ajouté'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
