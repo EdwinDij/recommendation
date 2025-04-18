@@ -19,6 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #endpoint auth
+    # endpoint auth
     path('api/auth/', include('users.urls')),
+    # endpoint book
+    path('api/book/', include('books.urls'))
 ]
