@@ -22,5 +22,10 @@ urlpatterns = [
     # endpoint auth
     path('api/auth/', include('users.urls')),
     # endpoint book
-    path('api/book/', include('books.urls'))
+    path('api/book/', include('books.urls')),
+    #path('auth/', include('dj_rest_auth.urls')), 
+    #path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    #path('auth/', include('allauth.urls')),
 ]
+
+# LES PATH COMMENTéS SERVIRONT POUR GOOGLE
