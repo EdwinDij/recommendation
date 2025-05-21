@@ -1,5 +1,5 @@
 export { Navbar } from './Navbar';
-export { FeatureSection } from './Featuresection';
+export { FeatureSection } from './FeatureSection';
 export { PricingSection } from './PricingSection';
 export { Footer } from './Footer';
-export { HeroSection } from './Herosection'
+export { HeroSection } from './HeroSection'

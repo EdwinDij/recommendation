@@ -1,0 +1,250 @@
+"use client";
+import React from "react";
+import { motion } from "framer-motion";
+import { BookOpen, LogIn, UserPlus } from "lucide-react";
+import Link from "next/link";
+import { useAuth } from "./useAuth";
+
+const AuthPage = () => {
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  };
+
+  const {
+    activeTab,
+    loginEmail,
+    loginPassword,
+    registerUsername,
+    registerEmail,
+    registerPassword,
+    PasswordConfirm,
+    handleRegister,
+    handleLogin,
+    setActiveTab,
+    setLoginEmail,
+    setLoginPassword,
+    setRegisterUsername,
+    setRegisterEmail,
+    setRegisterPassword,
+    setPasswordConfirm,
+  } = useAuth();
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950 p-4">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={fadeIn}
+        className="w-full max-w-md"
+      >
+        <div className="flex justify-center mb-8">
+          <Link
+            href="/"
+            className="flex items-center gap-2 text-white hover:text-indigo-400 transition-colors"
+          >
+            <BookOpen className="h-10 w-10 text-indigo-400" />
+            <span className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
+              LivresPlus
+            </span>
+          </Link>
+        </div>
+
+        {/* Tabs */}
+        <div className="grid grid-cols-2 bg-indigo-900/30 border border-indigo-800/50 rounded-md overflow-hidden">
+          <button
+            onClick={() => setActiveTab("login")}
+            className={`flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-colors ${
+              activeTab === "login"
+                ? "bg-indigo-700 text-white"
+                : "text-indigo-300 hover:bg-indigo-800"
+            }`}
+            aria-selected={activeTab === "login"}
+            role="tab"
+            id="tab-login"
+            type="button"
+          >
+            <LogIn className="h-4 w-4" /> Se connecter
+          </button>
+          <button
+            onClick={() => setActiveTab("register")}
+            className={`flex items-center justify-center gap-2 py-3 font-semibold text-sm transition-colors ${
+              activeTab === "register"
+                ? "bg-indigo-700 text-white"
+                : "text-indigo-300 hover:bg-indigo-800"
+            }`}
+            aria-selected={activeTab === "register"}
+            role="tab"
+            id="tab-register"
+            type="button"
+          >
+            <UserPlus className="h-4 w-4" /> S&apos;inscrire
+          </button>
+        </div>
+
+        {/* Login Tab Content */}
+        {activeTab === "login" && (
+          <div className="bg-slate-800/50 border border-indigo-800/50 text-white rounded-md mt-4 shadow-lg">
+            <header className="p-6 border-b border-indigo-700">
+              <h2 className="text-2xl font-semibold">Connexion</h2>
+              <p className="text-indigo-300/70 mt-1">
+                Accédez à votre compte LivresPlus.
+              </p>
+            </header>
+            <form className="p-6 space-y-6" onSubmit={handleLogin}>
+              <div>
+                <label
+                  htmlFor="login-email"
+                  className="block mb-2 text-sm font-medium text-indigo-300"
+                >
+                  Email
+                </label>
+                <input
+                  id="login-email"
+                  type="email"
+                  placeholder="exemple@email.com"
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="login-password"
+                  className="block mb-2 text-sm font-medium text-indigo-300"
+                >
+                  Mot de passe
+                </label>
+                <input
+                  id="login-password"
+                  type="password"
+                  placeholder="********"
+                  value={loginPassword}
+                  onChange={(e) => setLoginPassword(e.target.value)}
+                  className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 rounded-md transition-colors border-0"
+              >
+                Se connecter
+              </button>
+            </form>
+            <footer className="p-4 border-t border-indigo-700 text-xs text-indigo-300/70 text-center">
+              En vous connectant, vous acceptez nos{" "}
+              <a href="#" className="underline hover:text-indigo-400">
+                Conditions d&apos;utilisation
+              </a>
+              .
+            </footer>
+          </div>
+        )}
+
+        {/* Register Tab Content */}
+        {activeTab === "register" && (
+          <div className="bg-slate-800/50 border border-indigo-800/50 text-white rounded-md mt-4 shadow-lg">
+            <header className="p-6 border-b border-indigo-700">
+              <h2 className="text-2xl font-semibold">Inscription</h2>
+              <p className="text-indigo-300/70 mt-1">
+                Créez votre compte LivresPlus gratuitement.
+              </p>
+            </header>
+            <form className="p-6 space-y-6">
+              <div>
+                <label
+                  htmlFor="register-name"
+                  className="block mb-2 text-sm font-medium text-indigo-300"
+                >
+                  Nom d&apos;utilisateur
+                </label>
+                <input
+                  id="register-name"
+                  type="text"
+                  placeholder="Votre nom d'utilisateur"
+                  value={registerUsername}
+                  onChange={(e) => setRegisterUsername(e.target.value)}
+                  className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="register-email"
+                  className="block mb-2 text-sm font-medium text-indigo-300"
+                >
+                  Email
+                </label>
+                <input
+                  id="register-email"
+                  type="email"
+                  placeholder="exemple@email.com"
+                  value={registerEmail}
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                  className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="register-password"
+                  className="block mb-2 text-sm font-medium text-indigo-300"
+                >
+                  Mot de passe
+                </label>
+                <input
+                  id="register-password"
+                  type="password"
+                  placeholder="********"
+                  value={registerPassword}
+                  onChange={(e) => setRegisterPassword(e.target.value)}
+                  className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="register-password"
+                  className="block mb-2 text-sm font-medium text-indigo-300"
+                >
+                  Confirmez votre mot de passe
+                </label>
+                <input
+                  id="register-password-confirmation"
+                  type="password"
+                  placeholder="********"
+                  value={PasswordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={handleRegister}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 rounded-md transition-colors border-0"
+              >
+                S&apos;inscrire
+              </button>
+            </form>
+            <footer className="p-4 border-t border-indigo-700 text-xs text-indigo-300/70 text-center">
+              En vous inscrivant, vous acceptez nos{" "}
+              <a href="#" className="underline hover:text-indigo-400">
+                Conditions d&apos;utilisation
+              </a>{" "}
+              et notre{" "}
+              <a href="#" className="underline hover:text-indigo-400">
+                Politique de confidentialité
+              </a>
+              .
+            </footer>
+          </div>
+        )}
+
+        <p className="mt-6 text-center text-sm text-indigo-300/70">
+          <Link href="/" className="underline hover:text-indigo-400">
+            Retour à l&apos;accueil
+          </Link>
+        </p>
+      </motion.div>
+    </div>
+  );
+};
+
+export default AuthPage;
