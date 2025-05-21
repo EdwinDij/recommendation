@@ -1,6 +1,7 @@
 import React from "react";
 import * as motion from "motion/react-client";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 export const Herosection = () => {
   const fadeIn = {
@@ -31,10 +32,12 @@ export const Herosection = () => {
           découvrez de nouveaux titres adaptés à vos goûts.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white h-12 px-6 text-base rounded-md transition">
-            Commencer dès maintenant
-            <ChevronRight className="h-4 w-4" />
-          </button>
+          <Link href="/auth">
+            <button className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white h-12 px-6 text-base rounded-md transition">
+              Commencer dès maintenant
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          </Link>
           {/* <button className="flex items-center justify-center border border-indigo-500/30 text-white hover:bg-indigo-900/30 h-12 px-6 text-base rounded-md transition">
             Voir la démo
           </button> */}
