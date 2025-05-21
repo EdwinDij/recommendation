@@ -1,13 +1,19 @@
-import { Navbar, Herosection, Featuresection, PricingSection, Footer } from "./components";
+import {
+  FeatureSection,
+  Footer,
+  HeroSection,
+  Navbar,
+  PricingSection,
+} from "./components/Landing";
 
 export default function Home() {
   return (
     <>
       <Navbar />
-      <Herosection />
-      <Featuresection />
+      <HeroSection />
+      <FeatureSection />
       <PricingSection />
-      <Footer/>
+      <Footer />
     </>
   );
 }

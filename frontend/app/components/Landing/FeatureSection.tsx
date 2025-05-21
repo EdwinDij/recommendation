@@ -41,7 +41,7 @@ const featuresData = [
   //     "Rejoignez des communautés de lecteurs et partagez vos impressions sur vos livres préférés.",
   // },
 ];
-export const Featuresection = () => {
+export const FeatureSection = () => {
   return (
     <section id="features" className="container mx-auto px-4 py-20">
       <motion.div

@@ -3,16 +3,15 @@ import * as motion from "motion/react-client";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-export const Herosection = () => {
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 },
-    },
-  };
-
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 },
+  },
+};
+export const HeroSection = () => {
   return (
     <section className="container mx-auto px-4 py-20 md:py-32 flex flex-col items-center text-center">
       <motion.div
