@@ -1,4 +1,4 @@
-import { Navbar, Herosection, Featuresection, PricingSection } from "./components";
+import { Navbar, Herosection, Featuresection, PricingSection, Footer } from "./components";
 
 export default function Home() {
   return (
@@ -7,6 +7,7 @@ export default function Home() {
       <Herosection />
       <Featuresection />
       <PricingSection />
+      <Footer/>
     </>
   );
 }

@@ -66,10 +66,10 @@ export const PricingSection = () => {
         className="text-center mb-16 relative"
       >
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
-          Tarifs simples et transparents
+        Accédez gratuitement à la plateforme, sans engagement.
         </h2>
         <p className="text-indigo-200/70 max-w-2xl mx-auto">
-          Choisissez le plan qui correspond à vos besoins de lecture.
+          Découvrir des livres a toujours été gratuit
         </p>
       </motion.div>
 
@@ -96,11 +96,11 @@ export const PricingSection = () => {
               }
             `}
           >
-            {plan.highlighted && (
+            {/* {plan.highlighted && (
               <span className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-bold px-4 py-1 rounded-full">
                 Recommandé
               </span>
-            )}
+            )} */}
             <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
             <div className="mb-4">
               <span className="text-3xl font-bold">{plan.price}</span>
