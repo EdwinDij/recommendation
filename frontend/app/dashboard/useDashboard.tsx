@@ -6,9 +6,9 @@ export const useDashboard = () => {
 
   const { logout, user } = useAuthContext();
 
-//   const handleLogout = () => {
-//     logout();
-//   };
+  const handleLogout = () => {
+    logout();
+  };
 
 //     const fadeIn = {
 //     hidden: { opacity: 0, y: 20 },
@@ -22,7 +22,7 @@ export const useDashboard = () => {
 
 return {
     user,
-    logout
+    handleLogout
 }
 
 }

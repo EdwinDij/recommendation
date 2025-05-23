@@ -6,7 +6,7 @@ import { BookOpen, LogOut, Settings, Library } from "lucide-react"; // Ajout de 
 import { motion } from "framer-motion";
 
 export default function DashboardPage() {
-  const { user } = useDashboard();
+  const { user, handleLogout } = useDashboard();
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 } },
@@ -48,7 +48,10 @@ export default function DashboardPage() {
           <button className="text-indigo-300 hover:text-indigo-100 hover:bg-indigo-900/50">
             <Settings className="h-5 w-5" />
           </button>
-          <button className=" flex px-4 py-2 rounded-md text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-colors">
+          <button 
+          type="button"
+          onClick={handleLogout}
+          className=" flex px-4 py-2 rounded-md text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-colors">
             <LogOut className="mr-2 h-4 w-4" /> Déconnexion
           </button>
         </div>

@@ -34,10 +34,46 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(userData);
   };
 
-  const logout = () => {
-    localStorage.removeItem("user");
-    setUser(null);
-    router.push("/");
+  const logout = async () => {
+    const storedUser = localStorage.getItem("user");
+
+    if (!storedUser) {
+      console.warn("Aucun utilisateur trouvé.");
+      return;
+    }
+
+    const parsedUser = JSON.parse(storedUser);
+    const refreshToken = parsedUser?.token?.refresh;
+
+    if (!refreshToken) {
+      console.warn("Aucun refresh token trouvé.");
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_DEV_URL}/api/auth/logout/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ refresh: refreshToken }),
+        }
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Erreur lors de la déconnexion");
+      }
+
+      // Nettoyage
+      localStorage.removeItem("user");
+      setUser(null);
+      router.push("/");
+    } catch (error) {
+      console.error("Erreur de déconnexion :", error);
+    }
   };
 
   return (
