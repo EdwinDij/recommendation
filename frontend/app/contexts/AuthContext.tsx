@@ -67,7 +67,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         throw new Error(errorData.error || "Erreur lors de la déconnexion");
       }
 
-      // Nettoyage
       localStorage.removeItem("user");
       setUser(null);
       router.push("/");

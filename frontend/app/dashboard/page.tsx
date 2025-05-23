@@ -4,9 +4,10 @@ import Link from "next/link";
 import { useDashboard } from "./useDashboard";
 import { BookOpen, LogOut, Settings, Library } from "lucide-react"; // Ajout de Library
 import { motion } from "framer-motion";
+import { FullScreenLoader, Spinner } from "../components";
 
 export default function DashboardPage() {
-  const { user, handleLogout } = useDashboard();
+  const { user, handleLogout, isLoading } = useDashboard();
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.2 } },
@@ -34,6 +35,9 @@ export default function DashboardPage() {
   ];
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950 text-white p-4 md:p-8">
+      {isLoading && (
+        <FullScreenLoader loadingText={"Déconnexion en cours..."} />
+      )}
       <header className="container mx-auto flex justify-between items-center py-6 mb-8">
         <Link href="/dashboard" className="flex items-center gap-2">
           <BookOpen className="h-8 w-8 text-indigo-400" />
@@ -48,11 +52,13 @@ export default function DashboardPage() {
           <button className="text-indigo-300 hover:text-indigo-100 hover:bg-indigo-900/50">
             <Settings className="h-5 w-5" />
           </button>
-          <button 
-          type="button"
-          onClick={handleLogout}
-          className=" flex px-4 py-2 rounded-md text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-colors">
+          <button
+            type="button"
+            onClick={handleLogout}
+            className=" flex px-4 py-2 rounded-md text-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 transition-colors"
+          >
             <LogOut className="mr-2 h-4 w-4" /> Déconnexion
+            {isLoading ? <Spinner className="mr-2 h-4 w-4" /> : null}
           </button>
         </div>
       </header>
