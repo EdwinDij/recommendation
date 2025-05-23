@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { RegisterErrorData } from "../Types/authType";
-import { useAuth as useAuthContext } from '../contexts'
+import { useAuth as useAuthContext } from "../contexts";
 
 export function useAuthentification() {
   const [activeTab, setActiveTab] = useState("login");
@@ -21,7 +21,7 @@ export function useAuthentification() {
 
   const router = useRouter();
 
-const { login } = useAuthContext(); 
+  const { login } = useAuthContext();
 
   function translateRegisterErrors(errorData: RegisterErrorData) {
     const errors: {
@@ -154,6 +154,8 @@ const { login } = useAuthContext();
 
       if (!res.ok) {
         const errorData = await res.json();
+        await new Promise((resolve) => setTimeout(resolve, 2500)); // effet visuel
+
         setIsLoading(false);
         setLoginError(errorData.message || "Erreur lors de la connexion.");
         console.log(loginPassword, loginUsername);
@@ -163,12 +165,12 @@ const { login } = useAuthContext();
       const data = await res.json();
 
       login({
-        email: loginUsername,
+        email: data.email,
         username: data.username,
-        token: data.token
-      })
+        token: data.token,
+      });
 
-      await new Promise((resolve) => setTimeout(resolve, 1800)); // effet visuel
+      await new Promise((resolve) => setTimeout(resolve, 1500)); // effet visuel
 
       router.push("/dashboard");
     } catch (error) {
