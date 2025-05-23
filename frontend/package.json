@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@radix-ui/react-toast": "^1.2.14",
     "frontend": "file:",
     "lucide-react": "^0.511.0",
     "motion": "^12.12.1",
@@ -30,3 +29,4 @@
     "typescript": "^5"
   }
 }
+
