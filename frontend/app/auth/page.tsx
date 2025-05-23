@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { BookOpen, LogIn, UserPlus } from "lucide-react";
-import Link from "next/link";
 import { useAuth } from "./useAuth";
 import { FullScreenLoader, Spinner } from "../components";
 
@@ -12,27 +13,36 @@ const AuthPage = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const searchParams = useSearchParams();
+  const registered = searchParams.get("registered");
+
   const {
     activeTab,
+    emailError,
     isLoading,
     loadingText,
-    loginEmail,
+    loginUsername,
     loginPassword,
     registerUsername,
     registerEmail,
     registerPassword,
     PasswordConfirm,
-    loginError,
     registerError,
+    passwordError,
+    loginError,
+    usernameError,
     handleRegister,
     handleLogin,
     setActiveTab,
-    setLoginEmail,
+    setLoginUsername,
     setLoginPassword,
     setRegisterUsername,
     setRegisterEmail,
     setRegisterPassword,
     setPasswordConfirm,
+    setEmailError,
+    setPasswordError,
+    setUsernameError,
   } = useAuth();
 
   return (
@@ -102,17 +112,17 @@ const AuthPage = () => {
               <form className="p-6 space-y-6" onSubmit={handleLogin}>
                 <div>
                   <label
-                    htmlFor="login-email"
+                    htmlFor="login-username"
                     className="block mb-2 text-sm font-medium text-indigo-300"
                   >
-                    Email
+                    Nom d&apos;utilisateur
                   </label>
                   <input
-                    id="login-email"
-                    type="email"
-                    placeholder="exemple@email.com"
-                    value={loginEmail}
-                    onChange={(e) => setLoginEmail(e.target.value)}
+                    id="login-username"
+                    type="text"
+                    placeholder="Nom d'utilisateur"
+                    value={loginUsername}
+                    onChange={(e) => setLoginUsername(e.target.value)}
                     className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
                   />
                 </div>
@@ -136,7 +146,7 @@ const AuthPage = () => {
                   type="submit"
                   className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 rounded-md transition-colors border-0"
                 >
-                  {isLoading && loginEmail && loginPassword ? (
+                  {isLoading && loginUsername && loginPassword ? (
                     <Spinner className="mr-2 h-4 w-4" />
                   ) : null}
                   Se connecter
@@ -166,6 +176,11 @@ const AuthPage = () => {
                   Créez votre compte LivresPlus gratuitement.
                 </p>
               </header>
+              {registered === "true" && (
+                <div className="bg-green-100 text-green-800 p-3 rounded mb-4">
+                  Inscription réussie ! Vous pouvez maintenant vous connecter.
+                </div>
+              )}
               <form className="p-6 space-y-6">
                 <div>
                   <label
@@ -180,8 +195,12 @@ const AuthPage = () => {
                     placeholder="Votre nom d'utilisateur"
                     value={registerUsername}
                     onChange={(e) => setRegisterUsername(e.target.value)}
+                    onFocus={() => setUsernameError("")}
                     className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
                   />
+                  {usernameError && (
+                    <p className="text-red-500 text-sm mt-1">{usernameError}</p>
+                  )}
                 </div>
                 <div>
                   <label
@@ -196,8 +215,12 @@ const AuthPage = () => {
                     placeholder="exemple@email.com"
                     value={registerEmail}
                     onChange={(e) => setRegisterEmail(e.target.value)}
+                    onFocus={() => setEmailError("")}
                     className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
                   />
+                  {emailError && (
+                    <p className="text-red-500 text-sm mt-1">{emailError}</p>
+                  )}
                 </div>
                 <div>
                   <label
@@ -212,8 +235,12 @@ const AuthPage = () => {
                     placeholder="********"
                     value={registerPassword}
                     onChange={(e) => setRegisterPassword(e.target.value)}
+                    onFocus={() => setPasswordError("")}
                     className="w-full rounded-md bg-slate-700/50 border border-indigo-700/50 text-white placeholder-indigo-300/50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 px-3 py-2"
                   />
+                  {passwordError && (
+                    <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+                  )}
                 </div>
                 <div>
                   <label
@@ -236,12 +263,6 @@ const AuthPage = () => {
                   onClick={handleRegister}
                   className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 rounded-md transition-colors border-0"
                 >
-                  {isLoading &&
-                  registerUsername &&
-                  registerEmail &&
-                  registerPassword ? (
-                    <Spinner className="mr-2 h-4 w-4" />
-                  ) : null}
                   S&apos;inscrire
                 </button>
                 {registerError && (
