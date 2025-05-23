@@ -79,21 +79,54 @@ export function useAuth() {
     }
   };
 
-  const handleLogin = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (!loginEmail || !loginPassword) {
-      setLoginError("Veuillez remplir tous les champs.");
+ const handleLogin = async (e: { preventDefault: () => void }) => {
+  e.preventDefault();
+
+  if (!loginEmail || !loginPassword) {
+    setLoginError("Veuillez remplir tous les champs.");
+    return;
+  }
+
+  setLoginError(""); // reset l'erreur si tout est bon
+  setIsLoading(true); // démarrer le loader
+  setLoadingText("Connexion à votre dashboard...")
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_DEV_URL}/api/auth/login/`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: loginEmail,          // 👈 bonne variable ici
+          password: loginPassword,    // 👈 bonne variable ici
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      setIsLoading(false);
+      setLoginError(errorData.message || "Erreur lors de la connexion.");
       return;
     }
 
-    setLoginError(""); // reset l'erreur si tout est bon
+    const data = await res.json();
 
     localStorage.setItem(
       "user",
-      JSON.stringify({ email: loginEmail, name: "Utilisateur Test" })
+      JSON.stringify({ email: loginEmail, name: data.name, token: data.token || "Utilisateur Test" })
     );
+
     router.push("/dashboard");
-  };
+  } catch (error) {
+    console.error("Erreur réseau :", error);
+    setLoginError("Une erreur est survenue. Veuillez réessayer.");
+  } finally {
+    setIsLoading(false); // s'assurer de toujours désactiver le loader
+  }
+};
 
   return {
     activeTab,
