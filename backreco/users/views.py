@@ -43,9 +43,13 @@ class LoginView(TokenObtainPairView):
         except AuthenticationFailed as e:
             return Response({"message": "Identifiants incorrects"}, status=status.HTTP_401_UNAUTHORIZED)
 
+        user = serializer.user
+
         return Response({
             "message": "Connexion réussie",
             "token": serializer.validated_data,
+            "username": user.username,
+            "email": user.email,
         }, status=status.HTTP_200_OK)
 
 
@@ -60,6 +64,7 @@ def revoke_user_tokens(user):
         except Exception as e:
             # Token déjà blacklisté ou invalide, on ignore
             continue
+
 
 class MeView(APIView):
     permission_classes = [IsAuthenticated]

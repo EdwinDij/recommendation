@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'allauth',
-    
+
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
@@ -59,6 +59,9 @@ INSTALLED_APPS = [
     # Tes apps
     'users',
     'books',
+
+    # CORS
+    'corsheaders',
 ]
 
 
@@ -71,6 +74,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'backreco.urls'
@@ -117,6 +122,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'OPTION': {
+            'min_length': 8
+        }
     },
     {
         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
@@ -169,8 +177,9 @@ ITE_ID = 1
 
 REST_USE_JWT = True
 ACCOUNT_EMAIL_VERIFICATION = "none"
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGIN_METHODS = {"username"}
+ACCOUNT_SIGNUP_FIELDS = ["email*", "username*", "password1*"]
+
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
@@ -181,8 +190,16 @@ SOCIALACCOUNT_PROVIDERS = {
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
-    "all.accounts.auth_backends.AuthenticationBackend"
+    "allauth.account.auth_backends.AuthenticationBackend"
 )
 
 LOGIN_DIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  
+]
+
+
+# Si tu veux aussi autoriser les cookies ou les credentials :
+CORS_ALLOW_CREDENTIALS = True
