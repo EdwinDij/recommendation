@@ -109,7 +109,7 @@ const AuthPage = () => {
                   Accédez à votre compte LivresPlus.
                 </p>
               </header>
-              <form className="p-6 space-y-6" onSubmit={handleLogin}>
+              <form className="p-6 space-y-6">
                 <div>
                   <label
                     htmlFor="login-username"
@@ -143,7 +143,8 @@ const AuthPage = () => {
                   />
                 </div>
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleLogin}
                   className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-2 rounded-md transition-colors border-0"
                 >
                   {isLoading && loginUsername && loginPassword ? (

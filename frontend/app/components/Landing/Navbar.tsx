@@ -1,12 +1,11 @@
-// import { BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 import Link from "next/link";
-// import { Button } from '@/components/ui/button';
 
 export const Navbar = () => {
   return (
     <header className="container mx-auto px-4 py-6 flex justify-between items-center">
       <Link href="/" className="flex items-center gap-2">
-        {/* <BookOpen className="h-8 w-8 text-indigo-400" /> */}
+        <BookOpen className="h-8 w-8 text-indigo-400" />
         <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
           LivresPlus
         </span>

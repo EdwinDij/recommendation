@@ -154,7 +154,6 @@ export function useAuthentification() {
 
       if (!res.ok) {
         const errorData = await res.json();
-        await new Promise((resolve) => setTimeout(resolve, 2500)); // effet visuel
 
         setIsLoading(false);
         setLoginError(errorData.message || "Erreur lors de la connexion.");
