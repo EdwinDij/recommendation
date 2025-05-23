@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { RegisterErrorData } from "../Types/authType";
+import { useAuth as useAuthContext } from '../contexts'
 
-export function useAuth() {
+export function useAuthentification() {
   const [activeTab, setActiveTab] = useState("login");
   const [loginUsername, setLoginUsername] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -19,6 +20,8 @@ export function useAuth() {
   const [loadingText, setLoadingText] = useState("Chargement...");
 
   const router = useRouter();
+
+const { login } = useAuthContext(); 
 
   function translateRegisterErrors(errorData: RegisterErrorData) {
     const errors: {
@@ -159,14 +162,11 @@ export function useAuth() {
 
       const data = await res.json();
 
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          email: loginUsername,
-          name: data.name,
-          token: data.token || "Utilisateur Test",
-        })
-      );
+      login({
+        email: loginUsername,
+        username: data.username,
+        token: data.token
+      })
 
       await new Promise((resolve) => setTimeout(resolve, 1800)); // effet visuel
 

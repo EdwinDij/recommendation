@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { BookOpen, LogIn, UserPlus } from "lucide-react";
-import { useAuth } from "./useAuth";
+import { useAuthentification } from "./useAuthentification";
 import { FullScreenLoader, Spinner } from "../components";
 
 const AuthPage = () => {
@@ -43,7 +43,7 @@ const AuthPage = () => {
     setEmailError,
     setPasswordError,
     setUsernameError,
-  } = useAuth();
+  } = useAuthentification();
 
   return (
     <>
